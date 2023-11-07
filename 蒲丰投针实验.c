@@ -43,3 +43,48 @@ int main() {
     return 0;
 }
 以上是我自己写的不对的程序，后面再看看问题出现在了哪里。
+
+day_1107再次看昨天的题，发现了很多的问题，解决如下：
+https://blog.csdn.net/undefinedUser_1/article/details/122827971
+时间种子一定要放在循环外面，否则无法生成随机数！参考博客如上：
+
+使用double类型转换时可能整数位用不了那么多，最高只有5位整数位？没搞懂为什么。
+day_1107更新如下：可以跑通
+    
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<math.h>
+#define pi 3.141592653
+#define DEC (pi/180)
+
+int main() {
+	srand((unsigned int)time(NULL));
+	int d=2,l=1,N=1000000;
+
+	/*printf("请输入d和l的值：\n");
+	scanf_s("%d%d\n", &d ,&l);
+	printf("请输入实验次数N：");
+	scanf_s("%d\n", &N);*/
+
+	int m = 0;
+	for (int i = 0;i < N;i++) {
+		double r1 = double(rand() % (d * 1000+1)) / 1000;   //随机中点坐标
+		double r2 = double(rand() % (900))/10;    //产生随机度数0-90°
+		double y = sin(r2 * DEC);    //将角度转换为0-1区间
+		double t = l * y;     //计算投影长度
+		
+		if (2 * r1 <= d && 2 * r1 <= t)
+		{
+			m++;
+		}
+		else if (2 * r1 >= d && 2 * (d - r1) <= t)
+		{
+			m++;
+		}
+	}
+	printf("投中次数为：%d\n", m);
+	printf("概率为：%f\n", double(m) / N);
+	system("pause");
+	return 0;
+}
