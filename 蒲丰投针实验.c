@@ -70,7 +70,7 @@ int main() {
 	int m = 0;
 	for (int i = 0;i < N;i++) {
 		double r1 = double(rand() % (d * 1000+1)) / 1000;   //随机中点坐标
-		double r2 = double(rand() % (900))/10;    //产生随机度数0-90°
+		double r2 = double(rand() % (901))/10;    //产生随机度数0-90°
 		double y = sin(r2 * DEC);    //将角度转换为0-1区间
 		double t = l * y;     //计算投影长度
 		
