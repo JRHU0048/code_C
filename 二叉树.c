@@ -143,3 +143,105 @@ void main()
 	printf("\n");
 	system("pause");
 }
+
+//day_1113 相同二叉树的判断
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义二叉树节点
+struct TreeNode {
+    char data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// 创建一个新的二叉树节点
+struct TreeNode* newNode(char data) {
+    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+// 判断两棵树是否相同
+int areTreesEqual(struct TreeNode* root1, struct TreeNode* root2) {
+    if (root1 == NULL && root2 == NULL) {
+        return 1;
+    }
+    if (root1 == NULL || root2 == NULL) {
+        return 0;
+    }
+    return (root1->data == root2->data) &&
+        areTreesEqual(root1->left, root2->left) &&
+        areTreesEqual(root1->right, root2->right);
+}
+
+// 判断b1中是否存在与b2相同的子树
+int isSubtree(struct TreeNode* b1, struct TreeNode* b2) {
+    if (b1 == NULL) {
+        return 0;
+    }
+    if (areTreesEqual(b1, b2)) {
+        return 1;
+    }
+    return isSubtree(b1->left, b2) || isSubtree(b1->right, b2);
+}
+
+int main() {
+    // 构建二叉树b1
+    struct TreeNode* b1 = newNode('A');
+    b1->left = newNode('B');
+    b1->right = newNode('C');
+    b1->left->left = newNode('D');
+    b1->left->right = newNode('E');
+    b1->right->left = newNode('F');
+    b1->right->right = newNode('G');
+    b1->right->right->right = newNode('I');
+    b1->left->right->left = newNode('H');
+    b1->left->right->left->left = newNode('J');
+    b1->left->right->left->right = newNode('K');
+    b1->left->right->left->right->left = newNode('L');
+    b1->left->right->left->right->right = newNode('M');
+    b1->left->right->left->right->right->right = newNode('N');
+
+    // 构建正例子树b2(K)
+    struct TreeNode* b2_positive1 = newNode('K');
+    b2_positive1->left = newNode('L');
+    b2_positive1->right = newNode('M');
+    b2_positive1->right->right = newNode('N');
+
+    // 构建正例子树b2(G)
+    struct TreeNode* b2_positive2 = newNode('G');
+    b2_positive2->right = newNode('I');
+
+    //构建反例子树b2(K)
+    struct TreeNode* b2_negative = newNode('K');
+    b2_positive1->right = newNode('L');
+    b2_positive1->left = newNode('M');
+    b2_positive1->left->left = newNode('N');
+
+    // 检查b1中是否存在与b2_positive相同的子树
+    if (isSubtree(b1, b2_positive1)) {
+        printf("b1中存在与b2_positive1相同的子树\n");
+    }
+    else {
+        printf("b1中不存在与b2_positive1相同的子树\n");
+    }
+    if (isSubtree(b1, b2_positive2)) {
+        printf("b1中存在与b2_positive2相同的子树\n");
+    }
+    else {
+        printf("b1中不存在与b2_positive2相同的子树\n");
+    }
+
+    // 检查b1中是否存在与b2_negative相同的子树
+    if (isSubtree(b1, b2_negative)) {
+        printf("b1中存在与b2_negative相同的子树\n");
+    }
+    else {
+        printf("b1中不存在与b2_negative相同的子树\n");
+    }
+    system("pause");
+    return 0;
+}
