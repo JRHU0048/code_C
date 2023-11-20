@@ -49,3 +49,33 @@ int main() {
     printf("%d\n",a[n]);
     return 0;
 }
+
+DP4  最小花费爬楼梯
+#include <stdio.h>
+
+int min_cost(*cost,int i,int sum,int n){
+    if(cost[i+1]>=cost[i+2]&&(i+2)<=n)
+    {
+        return sum+cost[i+2];
+    }
+    else (cost[i+1]<cost[i+2]&&(i+2)<=n) 
+    {
+        return sum+cost[i+1];
+    }
+}
+int main() { 
+    int n;   //数组长度
+    scanf("%d\n",&n);   
+    int cost[n];
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&cost[i]);
+    }
+    int sum=0;
+    if(cost[0]>cost[1])
+    {
+        sum+=cost[1];
+
+    }
+    return 0;
+}
