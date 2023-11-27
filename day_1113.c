@@ -248,3 +248,219 @@ int main() {
     system("pause");
     return 0; 
 }
+
+day_1127
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+#define NP 50    // 种群规模
+#define size 10      // 个体的长度
+#define G 2000     // 迭代次数
+#define xMin -500     // 最小值
+#define xMax 500     // 最大值
+#define D 30      // 维度
+#define M_pi 3.141592653
+
+double X[NP][size];         // 个体
+double XMutation[NP][size];   
+double XCrossOver[NP][size];  
+double fitness_X[NP];       // 适应值 
+double CR = 0.5;   // 初始化参数
+double F = 0.5;    // 初始化参数
+double c = 0.1;  //初始化参数
+double SF[NP];
+
+// 计算个体的适应值（函数f8）
+double CalculateFitness(double XTemp[]) {
+    double fitness = 0;
+    for (int i = 0; i < size; i++) {
+        fitness  -= XTemp[i] * sin(sqrt(fabs(XTemp[i])));
+    }
+    return fitness +D * 418.98288727243369;;
+}
+
+// 初始化种群
+void Initialize() {
+    double XTemp[NP][size];
+    double FitnessTemp[NP];
+    for (int i = 0; i < NP; i++) {
+        for (int j = 0; j < size; j++) {
+            // 随机生成个体的初始值
+            XTemp[i][j] = xMin + ((double)rand() / RAND_MAX) * (xMax - xMin);
+        }
+        // 计算个体的适应值
+        FitnessTemp[i] = CalculateFitness(XTemp[i]);
+    }
+
+    // 复制数组
+    for (int i = 0; i < NP; i++) {
+        for (int j = 0; j < size; j++) {
+            X[i][j] = XTemp[i][j];
+        }
+        fitness_X[i] = FitnessTemp[i];
+    }
+}
+
+// 变异操作
+void Mutation() {
+    double XTemp[NP][size];
+    double XMutationTemp[NP][size];
+
+    int p_plus_a = NP + NP / 2;  // P∪A的大小
+    double fitness_p_a[p_plus_a];  // P∪A中个体的适应值
+    int indices[p_plus_a];  // P∪A中个体的索引
+
+    // 计算P∪A中个体的适应值
+    for (int i = 0; i < NP; i++) {
+        fitness_p_a[i] = fitness_X[i]; 
+        indices[i] = i;
+    }
+    for (int i = 0; i < NP / 2; i++) {
+        fitness_p_a[NP + i] = fitness_A[i];
+        indices[NP + i] = i;
+    }
+
+    // 对P∪A中个体按适应值进行排序
+    for (int i = 0; i < p_plus_a - 1; i++) {
+        for (int j = 0; j < p_plus_a - i - 1; j++) {
+            if (fitness_p_a[j] > fitness_p_a[j + 1]) {
+                double temp_fitness = fitness_p_a[j];
+                int temp_index = indices[j];
+                fitness_p_a[j] = fitness_p_a[j + 1];
+                indices[j] = indices[j + 1];
+                fitness_p_a[j + 1] = temp_fitness;
+                indices[j + 1] = temp_index;
+            }
+        }
+    }
+
+    // 从P∪A中选择三个不同的参考个体进行变异操作
+    for (int i = 0; i < NP; i++) {
+        int r1 = indices[rand() % p_plus_a];
+        int r2 = indices[rand() % p_plus_a];
+        int r3 = indices[rand() % p_plus_a];
+
+        for (int j = 0; j < size; j++) { 
+            // 根据公式进行变异操作
+            XMutationTemp[i][j] = X[r1][j] + F * (X[r2][j] - X[r3][j]);
+        }
+    }
+
+    // 复制数组
+    for (int i = 0; i < NP; i++) {
+        for (int j = 0; j < size; j++) { 
+            XMutation[i][j] = XMutationTemp[i][j];
+        }
+    }
+}
+
+// 杂交操作
+void CrossOver() {
+    double XTemp[NP][size];
+    double XMutationTemp[NP][size];
+    double XCrossOverTemp[NP][size];
+    for (int i = 0; i < NP; i++) {
+        for (int j = 0; j < size; j++) {
+            double rTemp = ((double)rand() / RAND_MAX);
+            // 根据杂交控制参数确定是否进行杂交操作
+            if (rTemp <= CR) {
+                XCrossOverTemp[i][j] = XMutation[i][j];
+            }
+            else {
+                XCrossOverTemp[i][j] = X[i][j];
+            }
+        }
+    }
+
+    // 复制数组
+    for (int i = 0; i < NP; i++) {
+        for (int j = 0; j < size; j++) {
+            XCrossOver[i][j] = XCrossOverTemp[i][j];
+        }
+    }
+}
+
+// 选择操作
+void Selection() {
+    double XTemp[NP][size];
+    double XCrossOverTemp[NP][size];
+    double FitnessTemp[NP];
+    double FitnessCrossOverTemp[NP];
+    for (int i = 0; i < NP; i++) {
+        // 计算杂交后个体的适应值
+        FitnessCrossOverTemp[i] = CalculateFitness(XCrossOver[i]);
+        // 如果杂交后个体的适应值优于原个体，则替换原个体
+        if (FitnessCrossOverTemp[i] < fitness_X[i]) {
+            for (int j = 0; j < size; j++) {
+                X[i][j] = XCrossOver[i][j];
+            }
+            fitness_X[i] = FitnessCrossOverTemp[i];
+        }
+    }
+}
+
+// 保存最优个体的适应值
+void SaveBest() {
+    double minFitness = fitness_X[0];
+    for (int i = 1; i < NP; i++) {
+        if (minFitness > fitness_X[i]) {
+            minFitness = fitness_X[i];
+        }
+    }
+    printf("%f\n", minFitness);
+}
+//randc函数
+double randc(double u_f) {
+    double u = ((double)rand() / RAND_MAX) - 0.5;
+    return u_f + 0.1 * tan(M_pi * u);
+}
+
+//randn函数2
+double randn(double u_cr) {
+    double z = sqrt(-2.0 * log(rand() / (RAND_MAX + 1.0))) * sin(2.0 * M_pi * rand() / (RAND_MAX + 1.0));
+    return u_cr + 0.1 * z;
+}
+
+//每代结束后更新F和CR
+void update_parameters(double* CR, double* F, double* R, double* SF, double c) {
+    // 更新CR
+    *CR = (1.0 - c) * (*CR) + c * (*R / NP);
+
+    // 更新F
+    double mean_SF = 0.0;
+    double mean_SF_squared = 0.0;
+
+    for (int i = 0; i < NP; ++i) {
+        mean_SF += SF[i];
+        mean_SF_squared += SF[i] * SF[i];
+    }
+    *F = (1.0 - c) * (*F) + c * (mean_SF_squared / mean_SF);
+}
+
+int main() {
+    double R = 0.0;
+    Initialize();
+
+    for (int iter = 0; iter < G; iter++) {
+        Mutation();
+        CrossOver();
+        Selection();
+        SaveBest();
+        for (int g = 0; g < G; g++) {
+            for (int i = 0; i < NP; i++) {
+                double CRi = randn(CR);
+                double Fi = randc(F);
+
+                R += CRi;
+                SF[i] = Fi;
+            }
+            // 更新参数
+            update_parameters(&CR, &F, &R, SF, c);
+        }
+    }
+    system("pause");
+    return 0;
+}
+
