@@ -62,7 +62,7 @@ void InOrder(struct TreeNode* root,int *res, int* returnSize){ 
     if(root!=NULL)
     {
         InOrder(root->left,res,returnSize);
-        res[(*returnSize)++]=root->val;
+        res[(*returnSize)++]=root->val; 
         InOrder(root->right,res,returnSize);
     }
 }
@@ -71,6 +71,31 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {  
     *returnSize=0;   //*是对指针的解引用，&是取变量的地址，两者的作用是不同的，*returnSize 就表示 直接操作 returnSize 指向的变量，可以理解就是参数的一个引用，别名
     InOrder(root,res,returnSize);
     return res;
+}
+
+T104.二叉树的最大深度
+/**
+ * Definition for a binary tree node. 
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int maxDepth(struct TreeNode* root) { 
+    int ldepth,rdepth;
+    if(root==NULL)
+    return NULL;
+    else{
+        ldepth=maxDepth(root->left);
+        rdepth=maxDepth(root->right);
+        return (ldepth>rdepth)?(ldepth+1):(rdepth+1);
+    }
+}
+//官方解法：
+int maxDepth(struct TreeNode *root) {
+    if (root == NULL) return 0;
+    return fmax(maxDepth(root->left), maxDepth(root->right)) + 1;
 }
 
 
