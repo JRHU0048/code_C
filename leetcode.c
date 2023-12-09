@@ -98,4 +98,6 @@ int maxDepth(struct TreeNode *root) {
     return fmax(maxDepth(root->left), maxDepth(root->right)) + 1;
 }
 
+//刷题感悟：
+//struct TreeNode* q = malloc(sizeof(struct TreeNode)); 创建了一个动态分配的内存空间，并将 q 指向该空间，而 struct TreeNode* p; 只是声明了一个未初始化的指针。
 
