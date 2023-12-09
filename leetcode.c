@@ -44,7 +44,7 @@ struct ListNode* deleteDuplicates(struct ListNode* head) {
 代码二：使用递归调用的方法进行遍历
 使用递归调用的函数基本类似，但是leetcode上面跑不了，不知道为什么呜呜呜呜。
 
-T94. 二叉树的中序遍历
+T94.二叉树的中序遍历
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -54,7 +54,7 @@ T94. 二叉树的中序遍历
  * };
  */
 /**
- * Note: The returned array must be malloced, assume caller calls free(). 
+ * Note: The returned array must be malloced, assume caller calls free().  
  */
  //中序遍历的特点：中序遍历左子树，访问根节点，中序遍历右子树。
 //利用递归思想进行
@@ -66,7 +66,7 @@ void InOrder(struct TreeNode* root,int *res, int* returnSize){ 
         InOrder(root->right,res,returnSize);
     }
 }
-int* inorderTraversal(struct TreeNode* root, int* returnSize) { 
+int* inorderTraversal(struct TreeNode* root, int* returnSize) {  
     int *res=malloc(sizeof(int)*2000);   //初始化一个数组用来存储结果
     *returnSize=0;   //*是对指针的解引用，&是取变量的地址，两者的作用是不同的，*returnSize 就表示 直接操作 returnSize 指向的变量，可以理解就是参数的一个引用，别名
     InOrder(root,res,returnSize);
