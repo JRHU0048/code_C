@@ -312,7 +312,7 @@ int mySqrt(int x){
 	return i-1;
 }
 
-
+//数据结构期末考试的实验
 //双链表基本运算算法
 #include <stdio.h>
 #include<stdlib.h>
@@ -478,7 +478,7 @@ int LocateNode(DLinkNode* L, ElemType e)
 	{
 		DLinkNode* q = p;
 		
-		DLinkNode* s = L->next;
+		DLinkNode* s = L->next; 
 		int ss = 1;
 		while (s != NULL && s->freq> q->freq);
 		{
