@@ -188,3 +188,25 @@ int arraySign(int* nums, int numsSize) {
 }
 //数组有0，则马上返回0；只用记录数组中负数个数，负数个数为偶数，则数组元素乘积为正，返回1；反之，返回-1。
 
+1502. 判断能否形成等差数列
+bool canMakeArithmeticProgression(int* arr, int arrSize) {
+    for(int i=0;i<arrSize;i++)
+    {
+        for(int j=i+1;j<arrSize;j++)
+        {
+            if(arr[i]<arr[j])   //从大到小排
+            {
+            int t=arr[i];
+            arr[i]=arr[j];
+            arr[j]=t;
+            }
+        }
+    }
+    int d=arr[1]-arr[0];
+    for(int i=1;i<arrSize-1;i++)
+    {
+        if(arr[i+1]-arr[i]!=d)
+        return false;
+    }
+    return true;
+}
