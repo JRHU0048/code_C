@@ -148,5 +148,23 @@ bool isAnagram(char* s, char* t) {
     return true;
 }
 
+283. 移动零
+void moveZeroes(int* nums, int numsSize){
+    int i=0,k=0,m=0;
+    for(i=0;i<numsSize;i++){
+        if(nums[i]==0){
+            k++;
+        }
+    }
+    for(int t=0;t<numsSize;t++){
+        if(nums[t]!=0){
+            nums[m]=nums[t];
+            m++;
+        }
+    }
+    for(int n=numsSize-k;n<numsSize;n++){
+            nums[n]=0;
+        }
+}
 
 
