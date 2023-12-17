@@ -246,3 +246,22 @@ char* toLowerCase(char* s) {
     return s;
 }
 
+1672. 最富有客户的资产总量
+int maximumWealth(int** accounts, int accountsSize, int* accountsColSize) {
+    
+    int maxsum=0;
+    for(int i=0;i<accountsSize;i++)
+    {
+        int y=0;
+        for(int j=0;j<accountsColSize[i];j++)
+        {
+            y+=accounts[i][j];
+        }
+        if(maxsum<y)
+        {
+            maxsum=y;
+        }
+    }
+    return maxsum;
+}
+
