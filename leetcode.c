@@ -167,4 +167,24 @@ void moveZeroes(int* nums, int numsSize){
         }
 }
 
+1822. 数组元素积的符号
+int arraySign(int* nums, int numsSize) {
+    int c=1;   //不能将nums数组中的元素全部相乘，会超出int类型数据长度
+    for(int i=0;i<numsSize;i++)
+    {
+        if(nums[i]<0)
+        {
+            c*=-1;   //判断负数的个数
+        }
+        else if(nums[i]==0)
+        {
+            return 0;   //出现一个0结果直接为0
+        }
+    }
+    if(c<0)
+    return -1;
+    else 
+    return 1;
+}
+//数组有0，则马上返回0；只用记录数组中负数个数，负数个数为偶数，则数组元素乘积为正，返回1；反之，返回-1。
 
