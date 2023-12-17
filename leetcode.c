@@ -95,9 +95,34 @@ int maxDepth(struct TreeNode* root) { 
 //官方解法：
 int maxDepth(struct TreeNode *root) {
     if (root == NULL) return 0;
-    return fmax(maxDepth(root->left), maxDepth(root->right)) + 1;
+    return fmax(maxDepth(root->left), maxDepth(root->right)) + 1; 
 }
 
 //刷题感悟：
 //struct TreeNode* q = malloc(sizeof(struct TreeNode)); 创建了一个动态分配的内存空间，并将 q 指向该空间，而 struct TreeNode* p; 只是声明了一个未初始化的指针。
 
+day1217
+T1768 
+char * mergeAlternately(char * word1, char * word2){
+    int s1=strlen(word1);
+    int s2=strlen(word2);
+    char* a=(char *)malloc(sizeof(char)*(s1+s2+1)); 
+    int i=0,t=0; 
+   while(i<s1||i<s2)
+   {
+       if(i<s1)
+       {
+           a[t++]=word1[i];
+       }
+       if(i<s2)
+       {
+           a[t++]=word2[i];
+       }
+       i++;
+   }
+   a[t]='\0';
+    return a;
+}  //在C语言中，局部变量（例如函数内部声明的变量）的生命周期仅限于它们所在的代码块。一旦函数返回，a数组就会被销毁，因此无法将其作为函数返回值返回。
+
+//为了解决这个问题，你可以使用动态分配内存的方法来分配足够的空间来存储合并后的字符串。可以使用malloc函数来动态分配内存，然后使用free函数来释放所分配的内存。
+//在C语言中，字符串以空字符\0结尾，而不是NULL指针。因此，正确的判断条件应该是word1[i] != '\0'或word1[i] != 0。
