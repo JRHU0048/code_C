@@ -89,7 +89,7 @@ int maxDepth(struct TreeNode* root) { 
     else{
         ldepth=maxDepth(root->left);
         rdepth=maxDepth(root->right);
-        return (ldepth>rdepth)?(ldepth+1):(rdepth+1);
+        return (ldepth>rdepth)?(ldepth+1):(rdepth+1); 
     }
 }
 //官方解法：
@@ -126,3 +126,5 @@ char * mergeAlternately(char * word1, char * word2){
 
 //为了解决这个问题，你可以使用动态分配内存的方法来分配足够的空间来存储合并后的字符串。可以使用malloc函数来动态分配内存，然后使用free函数来释放所分配的内存。
 //在C语言中，字符串以空字符\0结尾，而不是NULL指针。因此，正确的判断条件应该是word1[i] != '\0'或word1[i] != 0。
+
+
