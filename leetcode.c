@@ -210,3 +210,27 @@ bool canMakeArithmeticProgression(int* arr, int arrSize) {
     }
     return true;
 }
+
+896. 单调数列
+bool isMonotonic(int* nums, int numsSize) {
+    int j=0;
+    long long t;
+    while(j+1<numsSize&&nums[j+1]-nums[j]==0)
+    {
+        j++;
+    }
+    if(j==numsSize-1){
+        return true;
+    }else{
+        t=nums[j+1]-nums[j];
+    }
+    
+    for(int i=0;i<numsSize-1;i++)
+    {
+        if((nums[i+1]-nums[i])*t<0){
+            return false;
+        }
+    }
+    return true;
+}
+
