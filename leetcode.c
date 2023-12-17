@@ -234,3 +234,15 @@ bool isMonotonic(int* nums, int numsSize) {
     return true;
 }
 
+709. 转换成小写字母
+char* toLowerCase(char* s) {
+    for(int i=0;i<strlen(s);i++)
+    {
+        if(s[i]<=90&&s[i]>=65)
+        {
+            s[i]=s[i]+32;
+        }
+    }
+    return s;
+}
+
