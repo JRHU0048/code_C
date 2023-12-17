@@ -127,4 +127,26 @@ char * mergeAlternately(char * word1, char * word2){
 //为了解决这个问题，你可以使用动态分配内存的方法来分配足够的空间来存储合并后的字符串。可以使用malloc函数来动态分配内存，然后使用free函数来释放所分配的内存。
 //在C语言中，字符串以空字符\0结尾，而不是NULL指针。因此，正确的判断条件应该是word1[i] != '\0'或word1[i] != 0。
 
+242. 有效的字母异位词
+bool isAnagram(char* s, char* t) {
+    int temp[26]={0};
+    for(int i=0;s[i]!='\0';i++)
+    {
+        int n = s[i]-97;
+        temp[n]++;
+    }
+    for(int j=0;t[j]!='\0';j++)
+    {
+        int m = t[j]-97;
+        temp[m]--;
+    }
+    for(int i=0;i<26;i++)
+    {
+        if(temp[i]!=0)
+        return false;
+    }
+    return true;
+}
+
+
 
