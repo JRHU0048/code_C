@@ -247,7 +247,8 @@ char* toLowerCase(char* s) {
 }
 
 1672. 最富有客户的资产总量
-int maximumWealth(int** accounts, int accountsSize, int* accountsColSize) {
+int maximumWealth(int** accounts, int accountsSize, int* accountsColSize) {  //accountsSize表示矩阵的行数；
+    //accountsColSize表示矩阵的列数且是一个指向数组列大小的指针，在调用时需要指出具体的行数，例如accountsColSize[i]-->表示矩阵的第i行有多少列
     
     int maxsum=0;
     for(int i=0;i<accountsSize;i++)
@@ -264,4 +265,78 @@ int maximumWealth(int** accounts, int accountsSize, int* accountsColSize) {
     }
     return maxsum;
 }
+//accountsColSize 是指向数组列大小的指针，因此需要使用 accountsColSize[i] 而不是 accountsColSize
 
+1523. 在区间范围内统计奇数数目
+int countOdds(int low, int high){
+    int t=0;
+    if(low%2==0 && high%2==0)
+    {
+        return (high-low)/2;
+    }else 
+    return (high-low)/2+1;
+}
+解法二：
+int countOdds(int low, int high){
+        return (high - low) / 2 + (low % 2 || high % 2);
+}
+作者：Arw
+链接：https://leetcode.cn/problems/count-odd-numbers-in-an-interval-range/solutions/2565528/cyu-yan-yi-xing-dai-ma-gao-ding-by-qui22-42p9/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+860. 柠檬水找零
+bool lemonadeChange(int* bills, int billsSize) {
+    int k=0,l=0;
+    for(int i=0;i<billsSize;i++)
+    {
+        if(bills[i]==5)
+        {
+            k++;
+        }else if(bills[i]==10)
+        {
+            k--;
+            l++;
+        }
+        else if(bills[i]==20)
+        {
+            if(l>0)
+            {
+                l--;
+                k--;
+            }
+            else if(l==0)
+            {
+                k=k-3;
+            }
+        }
+        if(k<0||l<0)
+        return false;
+    }
+    return true;
+}
+
+976. 三角形的最大周长
+int largestPerimeter(int* nums, int numsSize) {
+    for(int i=0;i<numsSize;i++)  //排序:大->小
+    {
+        for(int j=i+1;j<numsSize;j++)
+        {
+            if(nums[i]<nums[j])
+            {
+                int t=nums[i];
+                nums[i]=nums[j];
+                nums[j]=t;
+            }
+        }
+    }
+    int k=0;
+    while(k+2<numsSize&&nums[k]-nums[k+1]>=nums[k+2]){
+        k++;
+    }
+    if(k+2<numsSize){
+        return nums[k]+nums[k+1]+nums[k+2];
+    }
+    else 
+    return 0;
+}
