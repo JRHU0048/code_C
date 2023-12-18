@@ -402,3 +402,36 @@ bool isPalindrome(struct ListNode* head) {
 第二步：双指针判断是否为回文，执行了 O(n/2)O(n/2)O(n/2) 次的判断，即 O(n)O(n)O(n)。
 总的时间复杂度：O(2n)=O(n)O(2n) = O(n)O(2n)=O(n)。
 
+142. 环形链表 II
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *detectCycle(struct ListNode *head) {
+    struct ListNode *slow =head,*fast=head;
+    while(fast!=NULL)
+    {
+        slow=slow->next;
+        if(fast->next==NULL)
+        {
+            return NULL;
+        }
+        fast=fast->next->next;
+        if(fast==slow)
+        {
+            struct ListNode *ptr =head;
+            while(ptr!=slow){
+                ptr=ptr->next;
+                slow=slow->next;
+            }
+            return ptr;
+        }
+    }
+    return NULL;
+}
+
+
+
