@@ -373,3 +373,32 @@ void setZeroes(int** matrix, int matrixSize, int* matrixColSize) {
         }
     }
 }
+
+234. 回文链表
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+bool isPalindrome(struct ListNode* head) {
+    int m[100000],t=0;
+    while(head != NULL)
+    {
+        m[t++]=head->val;
+        head=head->next;
+    }
+    for(int i=0,j=t-1;i<j;i++,j--)
+    {
+        if(m[i]!=m[j])
+        {
+        return false;
+        }
+    }
+    return true;
+}
+//第一步： 遍历链表并将值复制到数组中，O(n)O(n)O(n)。
+第二步：双指针判断是否为回文，执行了 O(n/2)O(n/2)O(n/2) 次的判断，即 O(n)O(n)O(n)。
+总的时间复杂度：O(2n)=O(n)O(2n) = O(n)O(2n)=O(n)。
+
