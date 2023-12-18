@@ -340,3 +340,36 @@ int largestPerimeter(int* nums, int numsSize) {
     else 
     return 0;
 }
+
+73. 矩阵置零
+void setZeroes(int** matrix, int matrixSize, int* matrixColSize) {
+    int m=matrixSize;
+    int n= matrixColSize[0];
+    int t=0;
+    int row[n+m],col[n+m];
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(matrix[i][j]==0)
+            {
+                row[t]=i;
+                col[t]=j;
+                t++;
+            }
+        }
+    }
+    for(int i=0;i<t;i++)
+    {
+        int x=row[i];
+        int y=col[i];
+        for(int j=0;j<n;j++)
+        {
+            matrix[x][j]=0;
+        }
+        for(int k=0;k<m;k++)
+        {
+            matrix[k][y]=0;
+        }
+    }
+}
